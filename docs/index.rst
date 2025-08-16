@@ -35,11 +35,15 @@ Slash Your LLM API Costs by 10x 💰, Boost Speed by 100x ⚡
    :alt: Discord
 
 
-🎉 GPTCache has been fully integrated with 🦜️🔗\ `LangChain <https://github.com/hwchase17/langchain>`_ ! Here are detailed `usage instructions <https://python.langchain.com/en/latest/modules/models/llms/examples/llm_caching.html?highlight=cache#gptcache>`_.
+🎉 GPTCache has been fully integrated with 🦜️🔗\ `LangChain <https://github.com/hwchase17/langchain>`_ ! Here are detailed `usage instructions <https://python.langchain.com/docs/modules/model_io/models/llms/integrations/llm_caching#gptcache>`_.
 
 🐳 `The GPTCache server docker image <https://github.com/zilliztech/GPTCache/blob/main/docs/usage.md#Use-GPTCache-server>`_ has been released, which means that **any language** will be able to use GPTCache!
 
-📔 This project is undergoing swift development, and as such, the API may be subject to change at any time. For the most up-to-date information, please refer to the latest `documentation <https://gptcache.readthedocs.io/en/latest/>`_ and `release note <https://github.com/zilliztech/GPTCache/blob/main/docs/release_note.html>`_.
+📔 This project is undergoing swift development, and as such, the API may be subject to change at any time. For the most up-to-date information, please refer to the latest `documentation <https://gptcache.readthedocs.io/en/latest/>`_ and `release note <release_note.html>`_.
+
+.. note::
+
+   As the number of large models is growing explosively and their API shape is constantly evolving, we no longer add support for new API or models. We encourage the usage of using the get and set API in gptcache, here is the `demo code <https://github.com/zilliztech/GPTCache/blob/main/examples/adapter/api.py>`_.
 
 Quick Install
 -------------
@@ -409,6 +413,7 @@ A `sample benchmark <https://github.com/zilliztech/gpt-cache/blob/main/examples/
   * [x] Support `MariaDB <https://mariadb.org/>`_.
   * [x] Support `SQL Server <https://www.microsoft.com/en-us/sql-server/>`_.
   * [x] Support `Oracle <https://www.oracle.com/>`_.
+  * [x] Support `DynamoDB <https://aws.amazon.com/dynamodb/>`_.
   * [ ] Support `MongoDB <https://www.mongodb.com/>`_.
   * [ ] Support `Redis <https://redis.io/>`_.
   * [ ] Support `Minio <https://min.io/>`_.
@@ -419,7 +424,7 @@ A `sample benchmark <https://github.com/zilliztech/gpt-cache/blob/main/examples/
 * **Vector Store**\ :
   The **Vector Store** module helps find the K most similar requests from the input request's extracted embedding. The results can help assess similarity. GPTCache provides a user-friendly interface that supports various vector stores, including Milvus, Zilliz Cloud, and FAISS. More options will be available in the future.
 
-  * [x] Support `Milvus <https://milvus.io/>`_\ , an open-source vector database for production-ready AI/LLM applicaionts. 
+  * [x] Support `Milvus <https://milvus.io/>`_\ , an open-source vector database for production-ready AI/LLM applications.
   * [x] Support `Zilliz Cloud <https://cloud.zilliz.com/>`_\ , a fully-managed cloud vector database based on Milvus.
   * [x] Support `Milvus Lite <https://github.com/milvus-io/milvus-lite>`_\ , a lightweight version of Milvus that can be embedded into your Python application.
   * [x] Support `FAISS <https://faiss.ai/>`_\ , a library for efficient similarity search and clustering of dense vectors.
@@ -427,19 +432,34 @@ A `sample benchmark <https://github.com/zilliztech/gpt-cache/blob/main/examples/
   * [x] Support `PGVector <https://github.com/pgvector/pgvector>`_\ , open-source vector similarity search for Postgres.
   * [x] Support `Chroma <https://github.com/chroma-core/chroma>`_\ , the AI-native open-source embedding database.
   * [x] Support `DocArray <https://github.com/docarray/docarray>`_\ , DocArray is a library for representing, sending and storing multi-modal data, perfect for Machine Learning applications.
-  * [ ] Support qdrant
-  * [ ] Support weaviate
+  * [x] Support qdrant
+  * [x] Support weaviate
   * [ ] Support other vector databases.
 
 * **Cache Manager**\ :
   The **Cache Manager** is responsible for controlling the operation of both the **Cache Storage** and **Vector Store**.
 
   * **Eviction Policy**\ :
+    Cache eviction can be managed in memory using python's ``cachetools`` or in a distributed fashion using Redis as a key-value store.
+
+  * **In-Memory Caching**
+
     Currently, GPTCache makes decisions about evictions based solely on the number of lines. This approach can result in inaccurate resource evaluation and may cause out-of-memory (OOM) errors. We are actively investigating and developing a more sophisticated strategy.
 
     * [x] Support LRU eviction policy.
     * [x] Support FIFO eviction policy.
+    * [x] Support LFU eviction policy.
+    * [x] Support RR eviction policy.
     * [ ] Support more complicated eviction policies.
+
+  * **Distributed Caching**
+
+    If you were to scale your GPTCache deployment horizontally using in-memory caching, it won't be possible. Since the cached information would be limited to the single pod.
+
+    With Distributed Caching, cache information consistent across all replicas we can use Distributed Cache stores like Redis.
+
+    * [x] Support Redis distributed cache
+    * [x] Support memcached distributed cache
 
 * **Similarity Evaluator**\ : 
   This module collects data from both the **Cache Storage** and **Vector Store**\ , and uses various strategies to determine the similarity between the input request and the requests from the **Vector Store**. Based on this similarity, it determines whether a request matches the cache. GPTCache provides a standardized interface for integrating various strategies, along with a collection of implementations to use. The following similarity definitions are currently supported or will be supported in the future:
