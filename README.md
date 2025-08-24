@@ -14,7 +14,13 @@ Slash Your LLM API Costs by 10x 💰, Boost Speed by 100x ⚡
 
 📔 This project is undergoing swift development, and as such, the API may be subject to change at any time. For the most up-to-date information, please refer to the latest [documentation]( https://gptcache.readthedocs.io/en/latest/) and [release note](https://github.com/zilliztech/GPTCache/blob/main/docs/release_note.md).
 
-**NOTE:** As the number of large models is growing explosively and their API shape is constantly evolving, we no longer add support for new API or models. We encourage the usage of using the get and set API in gptcache, here is the demo code: https://github.com/zilliztech/GPTCache/blob/main/examples/adapter/api.py
+**NOTE: Deprecation of Model-Specific Adapters**
+
+As the number of large models grows and their APIs constantly evolve, we are moving away from model-specific adapters. All existing adapters (e.g., `gptcache.adapter.openai`, `gptcache.adapter.dolly`, etc.) are now deprecated and will be removed in a future release.
+
+We strongly encourage you to use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` functions for all caching needs. This approach is more flexible and future-proof.
+
+You can find a demonstration of the new API here: [examples/adapter/api.py](https://github.com/zilliztech/GPTCache/blob/main/examples/adapter/api.py)
 
 ## Quick Install
 

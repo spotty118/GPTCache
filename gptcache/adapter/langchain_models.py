@@ -1,3 +1,4 @@
+import warnings
 from typing import Optional, List, Any, Mapping
 
 from gptcache.adapter.adapter import adapt, aadapt
@@ -50,6 +51,14 @@ class LangChainLLMs(LLM):
     llm: Any
     session: Session = None
     tmp_args: Any = None
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        warnings.warn(
+            "The LangChainLLMs adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
 
     @property
     def _llm_type(self) -> str:
@@ -153,6 +162,14 @@ class LangChainChat(BaseChatModel):
     chat: Any
     session: Optional[Session] = None
     tmp_args: Optional[Any] = None
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        warnings.warn(
+            "The LangChainChat adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
 
     def _generate(
         self,

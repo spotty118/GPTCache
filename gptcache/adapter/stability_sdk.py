@@ -58,6 +58,14 @@ class StabilityInference(client.StabilityInference):
                         img.save('path/to/save/image.png')
     """
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        warnings.warn(
+            "The StabilityInference adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
+
     def _llm_handler(self, *llm_args, **llm_kwargs):
         try:
             return super().generate(*llm_args, **llm_kwargs)

@@ -2,6 +2,7 @@ import base64
 import json
 import os
 import time
+import warnings
 from io import BytesIO
 from typing import Any, AsyncGenerator, Iterator, List
 
@@ -52,6 +53,14 @@ class ChatCompletion(openai.ChatCompletion, BaseCacheLLM):
                         )
             response_content = response['choices'][0]['message']['content']
     """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        warnings.warn(
+            "The ChatCompletion adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
 
     @classmethod
     def _llm_handler(cls, *llm_args, **llm_kwargs):
@@ -164,6 +173,13 @@ async def async_iter(input_list):
 
 
 class Completion(openai.Completion, BaseCacheLLM):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        warnings.warn(
+            "The Completion adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
     """Openai Completion Wrapper
 
     Example:
@@ -239,6 +255,13 @@ class Completion(openai.Completion, BaseCacheLLM):
 
 
 class Audio(openai.Audio):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        warnings.warn(
+            "The Audio adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
     """Openai Audio Wrapper
 
     Example:
@@ -320,6 +343,13 @@ class Audio(openai.Audio):
 
 
 class Image(openai.Image):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        warnings.warn(
+            "The Image adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
     """Openai Image Wrapper
 
     Example:
@@ -384,6 +414,13 @@ class Image(openai.Image):
 
 
 class Moderation(openai.Moderation, BaseCacheLLM):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        warnings.warn(
+            "The Moderation adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
     """Openai Moderation Wrapper
 
     Example:

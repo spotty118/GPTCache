@@ -1,3 +1,4 @@
+import warnings
 from argparse import Namespace
 
 from minigpt4.common.config import Config
@@ -36,6 +37,11 @@ class MiniGPT4:  # pragma: no cover
             answer = pipe(image, question)
     """
     def __init__(self, chat, return_hit):
+        warnings.warn(
+            "The MiniGPT4 adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
         self.chat = chat
         self.return_hit = return_hit
 

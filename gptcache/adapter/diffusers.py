@@ -1,4 +1,5 @@
 import base64
+import warnings
 from io import BytesIO
 
 from gptcache.adapter.adapter import adapt
@@ -40,6 +41,14 @@ class StableDiffusionPipeline(diffusers.StableDiffusionPipeline):
             prompt = "a photo of an astronaut riding a horse on mars"
             image = pipe(prompt=prompt).images[0]
     """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        warnings.warn(
+            "The StableDiffusionPipeline adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
 
     def _llm_handler(self, *llm_args, **llm_kwargs):
         try:

@@ -1,3 +1,5 @@
+import warnings
+
 from gptcache.utils.error import CacheError
 from gptcache.adapter.adapter import adapt
 from gptcache.utils import import_replicate
@@ -41,6 +43,14 @@ class Client(replicate.client.Client):
                                "question": "Which city is this photo taken on?"}
                     )
     """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        warnings.warn(
+            "The Replicate adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
+
     def run(self, model_version: str, **kwargs):
         if "input" in kwargs and "question" in kwargs["input"] and "image" in kwargs["input"]:
             cache_context = {"deps": [

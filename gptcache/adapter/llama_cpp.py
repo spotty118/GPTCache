@@ -1,4 +1,5 @@
 import time
+import warnings
 from typing import Iterator
 
 from gptcache.adapter.adapter import adapt
@@ -30,6 +31,14 @@ class Llama(llama_cpp.Llama):
             llm = Llama('./models/7B/ggml-model.bin')
             answer = llm(prompt=question, cache_obj=llm_cache)
     """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        warnings.warn(
+            "The Llama adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
+
     def __call__(
             self,
             prompt: str,

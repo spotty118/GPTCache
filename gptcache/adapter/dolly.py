@@ -1,3 +1,4 @@
+import warnings
 from typing import Any
 
 from gptcache.adapter.adapter import adapt
@@ -42,6 +43,11 @@ class Dolly:
     """
 
     def __init__(self, dolly_pipeline: Any):
+        warnings.warn(
+            "The Dolly adapter is deprecated and will be removed in a future version. "
+            "Please use the generic `gptcache.adapter.api.get` and `gptcache.adapter.api.put` methods instead.",
+            DeprecationWarning,
+        )
         self._dolly_pipeline = dolly_pipeline
 
     @classmethod
